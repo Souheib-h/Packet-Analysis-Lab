@@ -63,12 +63,12 @@ the network, and forwards it to a centralized analysis workstation.
 The lab runs on **PnetLab Open Edition**, deployed as a virtual machine
 on the Arch Linux host via KVM.
 
-| Criteria       | Details              |
-|----------------|----------------------|
-| Platform       | PnetLab Open Edition |
-| Hypervisor     | KVM/QEMU             |
-| Licensing      | Open (no cost)       |
-| Image support  | QEMU, IOL, Dynamips  |
+| Property      | Details              |
+| ------------- | -------------------- |
+| Platform      | PnetLab Open Edition |
+| Hypervisor    | KVM/QEMU             |
+| Licensing     | Open (no cost)       |
+| Image support | QEMU, IOL, Dynamips  |
 
 While alternatives such as GNS3 and EVE-NG were considered, PnetLab was
 preferred for its balance between functionality and simplicity in
@@ -126,6 +126,7 @@ sudo virsh net-list --all
 
 The PnetLab VM's `eth1` interface was attached to this network,
 confirmed by the assigned address `192.168.100.19/24` on `pnet1`.
+![Figure 7 — Persistent network configuration](assets/images/Pnet-1-ip.png)
 
 ---
 
