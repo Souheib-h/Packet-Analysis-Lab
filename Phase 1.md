@@ -28,8 +28,7 @@ This approach reflects a common SOC deployment pattern, where a dedicated
 monitoring interface receives traffic without actively participating in
 the network, and forwards it to a centralized analysis workstation.
 
-![[Topology-Diagram.png]]
-*Figure 1 — Lab network topology diagram*
+![Figure 1 — Lab network topology diagram](assets/images/Topology-Diagram.png)
 
 ### 3) Traffic Flow
 ```
@@ -84,14 +83,11 @@ single-node deployments.
 | Windows Endpoint | Windows 10         | QEMU (.qcow2)|
 | Virtual Switch   | Cisco IOU L2       | IOL (.bin)   |
 
-![[win-10-install-1.png]]
-*Figure 2 — Windows 10 installation  (step 1)*
+![Figure 2 — Windows 10 installation (step 1)](assets/images/win-10-install-1.png)
 
-![[win-10-install-2.png]]
-*Figure 3 — Windows 10 installation (step 2)*
+![Figure 3 — Windows 10 installation (step 2)](assets/images/win-10-install-2.png)
 
-![[Alpine-install.png]]
-*Figure 4 — Alpine Linux image imported into PnetLab*
+![Figure 4 — Alpine Linux image imported into PnetLab](assets/images/Alpine-install.png)
 
 ---
 
@@ -126,8 +122,7 @@ sudo virsh net-autostart project-1
 sudo virsh net-list --all
 ```
 
-![[Project-network-definition.png]]
-*Figure 5 — Project network definition*
+![Figure 5 — Project network definition](assets/images/Project-network-definition.png)
 
 The PnetLab VM's `eth1` interface was attached to this network,
 confirmed by the assigned address `192.168.100.19/24` on `pnet1`.
@@ -142,8 +137,7 @@ ip link set eth0 up
 ip route add default via 192.168.100.1
 ```
 
-![[Alpine-Linux-static-IP .png]]
-*Figure 6 — Alpine Linux static IP configuration*
+![Figure 6 — Alpine Linux static IP configuration](assets/images/Alpine-Linux-static-IP.png)
 
 Persist the configuration:
 ```bash
@@ -157,8 +151,7 @@ iface eth0 inet static
     gateway 192.168.100.1
 ```
 
-![[Persistante-configuration.png]]
-*Figure 7 — Persist the configuration*
+![Figure 7 — Persistent network configuration](assets/images/Persistante-configuration.png)
 
 ---
 
@@ -169,8 +162,7 @@ iface eth0 inet static
 > BSOD. This was resolved by modifying the disk interface to `if=ide`
 > in `/opt/unetlab/html/devices/qemu/device_qemu.php`.
 
-![[windows-issues.png]]
-*Figure 8 — INACCESSIBLE_BOOT_DEVICE BSOD caused by virtio disk interface*
+![Figure 8 — INACCESSIBLE_BOOT_DEVICE BSOD caused by virtio disk interface](assets/images/windows-issues.png)
 
 Static IP was assigned via:
 **Network & Internet Settings → Change adapter options → IPv4**
@@ -180,8 +172,7 @@ Subnet Mask:     255.255.255.0
 Default Gateway: 192.168.100.1
 ```
 
-![[Windows-Set-up.png]]
-*Figure 9 — Windows 10 static IP configuration*
+![Figure 9 — Windows 10 static IP configuration](assets/images/Windows-Set-up.png)
 
 ICMP was permitted through the Windows firewall:
 ```powershell
@@ -189,8 +180,7 @@ netsh advfirewall firewall add rule name="Allow ICMP" `
   protocol=icmpv4 dir=in action=allow
 ```
 
-![[Win-Alpine.png]]
-*Figure 10 — Windows 10 successfully pinging Alpine Linux*
+![Figure 10 — Windows 10 successfully pinging Alpine Linux](assets/images/Win-Alpine.png)
 
 ---
 
@@ -205,8 +195,7 @@ ping 192.168.100.20    # 0% packet loss confirmed
 ping 192.168.100.10    # 0% packet loss confirmed
 ```
 
-![[Alpine-Win.png]]
-*Figure 11 — Alpine Linux successfully pinging Windows 10*
+![Figure 11 — Alpine Linux successfully pinging Windows 10](assets/images/Alpine-Win.png)
 
 To verify the full capture pipeline, SSH key authentication was
 configured between the Arch analysis host and PnetLab VM to enable
@@ -227,11 +216,9 @@ This streams packets from `pnet1` on the PnetLab VM directly to
 Wireshark on the Arch host, while simultaneously saving the capture
 to disk. All subsequent captures in this project use this pipeline.
 
-![[Live-capture-arch-alpine.png]]
-*Figure 12 — Live Wireshark capture on Arch host: Alpine pinging Windows*
+![Figure 12 — Live Wireshark capture on Arch host: Alpine pinging Windows](assets/images/Live-capture-arch-alpine.png)
 
-![[Live-capture-arch-windows.png]]
-*Figure 13 — Live Wireshark capture on Arch host: Windows browsing via Edge*
+![Figure 13 — Live Wireshark capture on Arch host: Windows browsing via Edge](assets/images/Live-capture-arch-windows.png)
 
 ---
 
