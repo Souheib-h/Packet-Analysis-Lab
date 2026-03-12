@@ -29,6 +29,12 @@ incident reporting.
 | [Phase 5 — Comparative Analysis](Phase%205%20—%20Comparative%20Analysis%20%28Baseline%20vs%20Malicious%29.md) | Baseline vs malicious comparison                 | ⏳ Pending  |
 | [Phase 6 — Reporting](Phase%206%20—%20Reporting.md)                                                           | SOC-style incident report                        | ⏳ Pending  |
 
+## Capture Files
+
+| File             | Size  | Packets | Download                                                                                       |
+| ---------------- | ----- | ------- | ---------------------------------------------------------------------------------------------- |
+| baseline.pcap.gz | 31 MB | 27,370  | [Phase 2 Release](https://github.com/Souheib-h/Packet-Analysis-Lab/releases/tag/v0.2-baseline) |
+
 ---
 
 ## Topology
