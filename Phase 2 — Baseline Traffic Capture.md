@@ -1,11 +1,5 @@
 # Phase 2 — Baseline Traffic Capture
 
-> **Note:** This phase was conducted prior to the subnet update. The lab network
-> was subsequently reconfigured from `192.168.100.0/24` to `192.168.200.0/24`,
-> and the PnetLab VM address from `192.168.122.196` to `192.168.122.217`,
-> to resolve an IP conflict with an external Wi-Fi network. Screenshots and
-> capture data in this phase reflect the original subnet configuration.
-
 ## A) Generate Normal Network Traffic
 
 ### Actions Performed
