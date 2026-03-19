@@ -122,7 +122,9 @@ sudo virsh net-autostart project-1
 sudo virsh net-list --all
 ```
 
-![Figure 5 — Project network definition](assets/images/Project-network-definition.png)
+![Figure 5a — Project network definition](assets/images/Project-1-creation.png)
+
+![Figure 5b — Project network definition](assets/images/Project-network-definition.png)
 
 The PnetLab VM's `eth1` interface was attached to this network,
 confirmed by the assigned address `192.168.100.19/24` on `pnet1`.
