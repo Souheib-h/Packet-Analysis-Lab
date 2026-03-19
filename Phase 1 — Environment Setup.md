@@ -179,8 +179,7 @@ Default Gateway: 192.168.200.1
 
 ICMP was permitted through the Windows firewall:
 ```powershell
-netsh advfirewall firewall add rule name="Allow ICMP" `
-  protocol=icmpv4 dir=in action=allow
+netsh advfirewall firewall add rule name="Allow ICMP" protocol=icmpv4 dir=in action=allow
 ```
 
 ![Figure 12 — Windows 10 successfully pinging Alpine Linux](assets/images/Win-Alpine.png)
@@ -205,12 +204,12 @@ configured between the Arch analysis host and PnetLab VM to enable
 passwordless remote capture:
 ```bash
 ssh-keygen -t ed25519 -C "arch-to-pnetlab"
-ssh-copy-id root@192.168.122.196
+ssh-copy-id root@192.168.122.217
 ```
 
 Traffic capture was then verified using the remote capture pipeline:
 ```bash
-ssh root@192.168.122.196 "tcpdump -i pnet1 -U -s0 -w -" | \
+ssh root@192.168.122.217 "tcpdump -i pnet1 -U -s0 -w -" | \
   tee ~/Packet-Analysis-Lab/captures/baseline/baseline.pcap | \
   wireshark -k -i -
 ```
@@ -241,3 +240,8 @@ To recreate the environment:
 3. Apply the `if=ide` fix to `device_qemu.php` as documented in Step 3
 4. Configure SSH key authentication from analysis host to PnetLab VM
 5. Start all nodes and verify connectivity per Step 4
+
+
+> **Note:** The lab subnet was subsequently updated from `192.168.100.0/24`
+> to `192.168.200.0/24` to resolve an IP conflict with an external network.
+> Screenshots in this phase reflect the original subnet configuration.
