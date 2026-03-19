@@ -106,9 +106,9 @@ nano project-1.xml
   <name>project-1</name>
   <bridge name='virbr2'/>
   <forward mode='nat'/>
-  <ip address='192.168.100.1' netmask='255.255.255.0'>
+  <ip address='192.168.200.1' netmask='255.255.255.0'>
     <dhcp>
-      <range start='192.168.100.2' end='192.168.100.254'/>
+      <range start='192.168.200.2' end='192.168.200.254'/>
     </dhcp>
   </ip>
 </network>
@@ -122,10 +122,12 @@ sudo virsh net-autostart project-1
 sudo virsh net-list --all
 ```
 
-![Figure 5 — Project network definition](assets/images/Project-network-definition.png)
+![Figure 5 — Project network creation ](assets/images/Project-1-creation.png)
+
+![Figure 6 — Project network definition](assets/images/Project-network-definition.png)
 
 The PnetLab VM's `eth1` interface was attached to this network,
-confirmed by the assigned address `192.168.100.19/24` on `pnet1`.
+confirmed by the assigned address `192.168.200.19/24` on `pnet1`.
 ![Figure 7 — Persistent network configuration](assets/images/Pnet-1-ip.png)
 
 ---
@@ -133,12 +135,12 @@ confirmed by the assigned address `192.168.100.19/24` on `pnet1`.
 ### Step 2 — Configure Alpine Linux
 ```bash
 # Assign static IP
-ip addr add 192.168.100.10/24 dev eth0
+ip addr add 192.168.200.10/24 dev eth0
 ip link set eth0 up
-ip route add default via 192.168.100.1
+ip route add default via 192.168.200.1
 ```
 
-![Figure 6 — Alpine Linux static IP configuration](assets/images/Alpine-Linux-static-IP.png)
+![Figure 8 — Alpine Linux static IP configuration](assets/images/Alpine-Linux-static-IP.png)
 
 Persist the configuration:
 ```bash
@@ -147,12 +149,12 @@ nano /etc/network/interfaces
 ```
 auto eth0
 iface eth0 inet static
-    address 192.168.100.10
+    address 192.168.200.10
     netmask 255.255.255.0
-    gateway 192.168.100.1
+    gateway 192.168.200.1
 ```
 
-![Figure 7 — Persistent network configuration](assets/images/Persistante-configuration.png)
+![Figure 9 — Persistent network configuration](assets/images/Persistante-configuration.png)
 
 ---
 
@@ -163,17 +165,17 @@ iface eth0 inet static
 > BSOD. This was resolved by modifying the disk interface to `if=ide`
 > in `/opt/unetlab/html/devices/qemu/device_qemu.php`.
 
-![Figure 8 — INACCESSIBLE_BOOT_DEVICE BSOD caused by virtio disk interface](assets/images/windows-issues.png)
+![Figure 10  — INACCESSIBLE_BOOT_DEVICE BSOD caused by virtio disk interface](assets/images/windows-issues.png)
 
 Static IP was assigned via:
 **Network & Internet Settings → Change adapter options → IPv4**
 ```
-IP Address:      192.168.100.20
+IP Address:      192.168.200.20
 Subnet Mask:     255.255.255.0
-Default Gateway: 192.168.100.1
+Default Gateway: 192.168.200.1
 ```
 
-![Figure 9 — Windows 10 static IP configuration](assets/images/Windows-Set-up.png)
+![Figure 11 — Windows 10 static IP configuration](assets/images/Windows-Set-up.png)
 
 ICMP was permitted through the Windows firewall:
 ```powershell
@@ -181,7 +183,7 @@ netsh advfirewall firewall add rule name="Allow ICMP" `
   protocol=icmpv4 dir=in action=allow
 ```
 
-![Figure 10 — Windows 10 successfully pinging Alpine Linux](assets/images/Win-Alpine.png)
+![Figure 12 — Windows 10 successfully pinging Alpine Linux](assets/images/Win-Alpine.png)
 
 ---
 
@@ -190,13 +192,13 @@ netsh advfirewall firewall add rule name="Allow ICMP" `
 Connectivity between both endpoints was confirmed:
 ```bash
 # From Alpine
-ping 192.168.100.20    # 0% packet loss confirmed
+ping 192.168.200.20    # 0% packet loss confirmed
 
 # From Windows
-ping 192.168.100.10    # 0% packet loss confirmed
+ping 192.168.200.10    # 0% packet loss confirmed
 ```
 
-![Figure 11 — Alpine Linux successfully pinging Windows 10](assets/images/Alpine-Win.png)
+![Figure 13 — Alpine Linux successfully pinging Windows 10](assets/images/Alpine-Win.png)
 
 To verify the full capture pipeline, SSH key authentication was
 configured between the Arch analysis host and PnetLab VM to enable
@@ -217,9 +219,9 @@ This streams packets from `pnet1` on the PnetLab VM directly to
 Wireshark on the Arch host, while simultaneously saving the capture
 to disk. All subsequent captures in this project use this pipeline.
 
-![Figure 12 — Live Wireshark capture on Arch host: Alpine pinging Windows](assets/images/Live-capture-arch-alpine.png)
+![Figure 14 — Live Wireshark capture on Arch host: Alpine pinging Windows](assets/images/Live-capture-arch-alpine.png)
 
-![Figure 13 — Live Wireshark capture on Arch host: Windows browsing via Edge](assets/images/Live-capture-arch-windows.png)
+![Figure 15 — Live Wireshark capture on Arch host: Windows browsing via Edge](assets/images/Live-capture-arch-windows.png)
 
 ---
 

@@ -2,6 +2,9 @@
   <name>project-1</name>
   <bridge name='virbr2'/>
   <forward mode='nat'/>
-  <ip address='192.168.100.1' netmask='255.255.255.0'>
+  <ip address='192.168.200.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.200.2' end='192.168.200.254'/>
+    </dhcp>
   </ip>
 </network>
