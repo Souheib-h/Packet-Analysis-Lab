@@ -57,13 +57,3 @@ traffic detection, and incident reporting.
 ![Topology](assets/images/Topology-Diagram.png)
 
 ---
-
-## Tools Used
-
-| Tool | Purpose |
-|------|---------|
-| tcpdump | Remote packet capture on PnetLab bridge |
-| Wireshark | Live capture and protocol analysis |
-| lftp | FTP client (Alpine) |
-| curl | HTTP traffic generation |
-| hping3 / nmap | Phase 4 — attack simulation (planned) |
