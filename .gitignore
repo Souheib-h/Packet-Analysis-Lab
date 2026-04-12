@@ -1,4 +1,4 @@
 .obsidian/
-*.pcap
-captures/
+#*.pcap
+#captures/
 assets/topology/.*bkp
