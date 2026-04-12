@@ -41,13 +41,13 @@ traffic detection, and incident reporting.
 | File | Phase | Description |
 |------|-------|-------------|
 | baseline.pcap.gz | Phase 2 | Full baseline session — 27,370 packets |
-| phase3_arp.pcap | Phase 3 | ARP Request/Reply capture |
-| phase3_icmp.pcap | Phase 3 | ICMP Echo Request/Reply capture |
+| phase3_arp.pcapng | Phase 3 | ARP Request/Reply capture |
+| phase3_icmp.pcapng | Phase 3 | ICMP Echo Request/Reply capture |
 | phase3_dns.pcap | Phase 3 | DNS Query/Response capture |
-| phase3_dhcp.pcap | Phase 3 | DHCP DORA sequence capture |
+| phase3_dhcp.pcapng | Phase 3 | DHCP DORA sequence capture |
 | phase3_http.pcap | Phase 3 | HTTP GET/Response plaintext capture |
 | phase3_ftp.pcap | Phase 3 | FTP control channel — credentials in plaintext |
-| phase3_ssh.pcap | Phase 3 | SSH encrypted session capture |
+| phase3_ssh.pcapng | Phase 3 | SSH encrypted session capture |
 | phase3_traceroute.pcap | Phase 3 | ICMP TTL path discovery capture |
 
 ---
