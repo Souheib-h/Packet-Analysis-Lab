@@ -196,7 +196,9 @@ Normal ICMP behavior: one Request per Reply, regular timing intervals, payload s
 **Step 1 — Start the capture pipeline**
 
 ```bash
-ssh root@192.168.122.217 "tcpdump -i vnet1_2 icmp -U -s0 -w -" | \ tee ~/Packet-Analysis-Lab/captures/baseline/phase3_icmp.pcap | \ wireshark -k -i -
+ssh root@192.168.122.217 "tcpdump -i vnet1_2 icmp -U -s0 -w -" | \
+  tee ~/Packet-Analysis-Lab/captures/baseline/phase3_icmp.pcap | \
+  wireshark -k -i -
 ```
 
 **Step 2 — Generate ICMP traffic from Alpine**
