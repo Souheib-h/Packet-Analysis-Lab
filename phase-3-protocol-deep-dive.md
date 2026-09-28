@@ -77,7 +77,7 @@ ip neigh flush all
 ip neigh show
 ```
 
-![Step-1-Flush-arp-cache.png](assets/images/Step-1-Flush-arp-cache.png)
+![Flushing the ARP cache on Alpine before the capture](assets/images/Step-1-Flush-arp-cache.png)
 
 **Step 2 — Start the capture pipeline on the Arch host**
 
@@ -95,7 +95,7 @@ ssh root@192.168.122.217 \
 ping -c 4 192.168.200.20
 ```
 
-![Arp-Alpine-win.png](assets/images/Arp-Alpine-win.png)
+![Ping from Alpine to Windows triggering the ARP exchange](assets/images/Arp-Alpine-win.png)
 
 **Wireshark filter:** `arp`
 
@@ -111,7 +111,7 @@ ping -c 4 192.168.200.20
 |Destination Ethernet (Request)|`ff:ff:ff:ff:ff:ff`|Broadcast|
 |Destination Ethernet (Reply)|Alpine's MAC|Unicast reply|
 
-![Arp-frame.png](assets/images/Arp-frame.png)
+![ARP frame dissected in Wireshark](assets/images/Arp-frame.png)
 
 **Verify the ARP cache was updated:**
 
@@ -125,18 +125,18 @@ arp -a
 # Expected: 192.168.200.10 → Alpine's MAC
 ```
 
-![Arp-cache-updated.png](assets/images/Arp-cache-updated.png)
- _Figure — ARP cache Alpine 
+![ARP cache on Alpine after the ping](assets/images/Arp-cache-updated.png)
+_Figure — ARP cache on Alpine after the ping_
 
-![arp-cache-win.png](assets/images/arp-cache-win.png)
-_Figure — ARP windows 10_
+![ARP cache on Windows 10](assets/images/arp-cache-win.png)
+_Figure — ARP cache on Windows 10_
  
 
-![arp_request.png.png](assets/images/arp_request.png.png)
- _Figure — ARP Request broadcast from Alpine to the network_
+![ARP Request broadcast from Alpine to the network](assets/images/arp_request.png)
+_Figure — ARP Request broadcast from Alpine to the network_
 
-![arp_reply.png](assets/images/arp_reply.png)
- _Figure — ARP Reply unicast from Windows back to Switch
+![ARP Reply unicast from Windows back to Alpine](assets/images/arp_reply.png)
+_Figure — ARP Reply unicast from Windows back to Alpine_
 
 ---
 
@@ -196,7 +196,9 @@ Normal ICMP behavior: one Request per Reply, regular timing intervals, payload s
 **Step 1 — Start the capture pipeline**
 
 ```bash
-ssh root@192.168.122.217 "tcpdump -i vnet1_2 icmp -U -s0 -w -" | \ tee ~/Packet-Analysis-Lab/captures/baseline/phase3_icmp.pcap | \ wireshark -k -i -
+ssh root@192.168.122.217 "tcpdump -i vnet1_2 icmp -U -s0 -w -" | \
+  tee ~/Packet-Analysis-Lab/captures/baseline/phase3_icmp.pcap | \
+  wireshark -k -i -
 ```
 
 **Step 2 — Generate ICMP traffic from Alpine**
@@ -206,7 +208,7 @@ ssh root@192.168.122.217 "tcpdump -i vnet1_2 icmp -U -s0 -w -" | \ tee ~/Packet-
 ping -c 10 192.168.200.20
 ```
 
-![ICMP-Ping-alpine-wind.png](assets/images/ICMP-Ping-alpine-wind.png)
+![ICMP ping from Alpine to Windows](assets/images/ICMP-Ping-alpine-wind.png)
 
 **Wireshark filter:** `icmp`
 
@@ -221,10 +223,10 @@ ping -c 10 192.168.200.20
 |TTL (IP header)|64 from Alpine, 128 from Windows|OS fingerprinting|
 |Payload size|56 bytes (Linux default)|Deviations may indicate tunneling|
 
-![phase3_icmp_request.png](assets/images/phase3_icmp_request.png)
- _Figure — ICMP Echo Request from Alpine showing type, sequence number, and TTL_
+![ICMP Echo Request from Alpine showing type, sequence number, and TTL](assets/images/phase3_icmp_request.png)
+_Figure — ICMP Echo Request from Alpine showing type, sequence number, and TTL_
 
-![phase3_icmp_reply.png](assets/images/phase3_icmp_reply.png)
+![ICMP Echo Reply from Windows with TTL=128](assets/images/phase3_icmp_reply.png)
 _Figure — ICMP Echo Reply from Windows with TTL=128_
 
 ---
@@ -307,7 +309,7 @@ dig @8.8.8.8 tryhackme.com
 dig @8.8.8.8 MX gmail.com
 ```
 
-![DNS-Querys.png](assets/images/DNS-Querys.png)
+![DNS queries generated from Alpine](assets/images/DNS-Querys.png)
 
 **Wireshark filter:** `dns`
 
@@ -321,10 +323,11 @@ dig @8.8.8.8 MX gmail.com
 |Answer RRs|Resolved IP + TTL|The result|
 |Transport|UDP/53 (standard)|TCP/53 only for large responses|
 |Response code|NOERROR (0)|NXDOMAIN means domain doesn't exist|
-![DNS-Alpine-google.png](assets/images/DNS-Alpine-google.png)
+
+![DNS Query from Alpine for google.com, showing Transaction ID and question section](assets/images/DNS-Alpine-google.png)
 _Figure — DNS Query from Alpine for google.com, showing Transaction ID and question section_
-![DNS Response from 8.8.8.8 with A and AAAA records and TTL values.png](assets/images/DNS Response from 8.8.8.8 with A and AAAA records and TTL values.png)
- _Figure — DNS Response from 8.8.8.8 with A and AAAA records and TTL values_
+![DNS Response from 8.8.8.8 with A and AAAA records and TTL values](assets/images/dns-response-from-8.8.8.8-with-a-and-aaaa-records-and-ttl-values.png)
+_Figure — DNS Response from 8.8.8.8 with A and AAAA records and TTL values_
 
 ---
 
@@ -390,7 +393,7 @@ ip link set eth0 down && ip link set eth0 up
 udhcpc -i eth0
 ```
 
-![Force a DHCP renewal on Alpine.png](assets/images/Force a DHCP renewal on Alpine.png)
+![Force a DHCP renewal on Alpine](assets/images/force-a-dhcp-renewal-on-alpine.png)
  
 **Wireshark filter:** `dhcp`
 
@@ -406,10 +409,10 @@ udhcpc -i eth0
 | Option 3         | Default gateway                       | Router address provided by server |
 | Option 6         | DNS server(s)                         | DNS provided by server            |
 
- ![DHCP Discover broadcast from Alpine with src 0.0.0.0 and dst 255.255.255.255.png](assets/images/DHCP Discover broadcast from Alpine with src 0.0.0.0 and dst 255.255.255.255.png)
- _Figure — DHCP Discover broadcast from Alpine with src 0.0.0.0 and dst 255.255.255.255_
+![DHCP Discover broadcast from Alpine with src 0.0.0.0 and dst 255.255.255.255](assets/images/dhcp-discover-broadcast-from-alpine-with-src-0.0.0.0-and-dst-255.255.255.255.png)
+_Figure — DHCP Discover broadcast from Alpine with src 0.0.0.0 and dst 255.255.255.255_
 
-![DORA.png](assets/images/DORA.png)
+![Full DORA sequence visible in Wireshark, four packets linked by Transaction ID](assets/images/DORA.png)
 _Figure — Full DORA sequence visible in Wireshark, four packets linked by Transaction ID_
 
 ---
@@ -490,7 +493,7 @@ curl -v http://neverssl.com
 curl -v http://httpforever.com
 ```
 
-![Https.png](assets/images/Https.png)
+![HTTP requests from Alpine with curl -v](assets/images/Https.png)
 
 > **Note:** Most modern sites redirect HTTP to HTTPS (301 redirect). Use `neverssl.com` or `httpforever.com` to capture readable HTTP content without TLS.
 
@@ -498,7 +501,7 @@ curl -v http://httpforever.com
 
 To follow the full TCP + HTTP session: right-click any HTTP packet → _Follow → TCP Stream_. This reconstructs the full exchange as readable text.
 
-![Tcp-follow-stream.png](assets/images/Tcp-follow-stream.png)
+![Follow TCP Stream reconstructing the HTTP exchange](assets/images/Tcp-follow-stream.png)
 
 **Key fields to observe:**
 
@@ -512,11 +515,11 @@ To follow the full TCP + HTTP session: right-click any HTTP packet → _Follow �
 |Content-Type|`text/html`|Type of content returned|
 |Authorization header|If present: credentials in plaintext|Critical finding|
 
-![HTTP GET request from Alpine showing headers in plaintext.png](assets/images/HTTP GET request from Alpine showing headers in plaintext.png)
- _Figure — HTTP GET request from Alpine showing headers in plaintext_
+![HTTP GET request from Alpine showing headers in plaintext](assets/images/http-get-request-from-alpine-showing-headers-in-plaintext.png)
+_Figure — HTTP GET request from Alpine showing headers in plaintext_
 
-![HTTP 200 OK response with plaintext body visible.png](assets/images/HTTP 200 OK response with plaintext body visible.png)
- _Figure — HTTP 200 OK response with plaintext body visible_
+![HTTP 200 OK response with plaintext body visible](assets/images/http-200-ok-response-with-plaintext-body-visible.png)
+_Figure — HTTP 200 OK response with plaintext body visible_
 
 ---
 
@@ -569,11 +572,11 @@ FileZilla Server could not be installed as the Windows 10 VM had no internet acc
 9. Verify: netstat -an | findstr :21
 ```
 
-![Win-10-ftp-activation.png](assets/images/Win-10-ftp-activation.png)
+![Enabling the IIS FTP server on Windows 10](assets/images/Win-10-ftp-activation.png)
 
-![win-ftp-done.png](assets/images/win-ftp-done.png)
+![FTP site created on Windows 10](assets/images/win-ftp-done.png)
 
-![ftp-lisneting.png](assets/images/ftp-lisneting.png)
+![Windows 10 listening on TCP 21](assets/images/ftp-lisneting.png)
 
 **Lab note — Windows Firewall:** The Windows Firewall blocked the FTP active mode data channel, preventing Alpine from listing directory contents. The firewall was disabled for the duration of this capture: `netsh advfirewall set allprofiles state off`
 
@@ -603,7 +606,7 @@ lftp labuser@192.168.200.20:~> ls
 lftp labuser@192.168.200.20:~> bye
 ```
 
-![ftp-connected.png](assets/images/ftp-connected.png)
+![lftp session from Alpine to the Windows FTP server](assets/images/ftp-connected.png)
 
 **Wireshark filter:** `ftp`
 
@@ -620,8 +623,8 @@ To read the credentials directly: right-click any FTP packet → _Follow → TCP
 | LIST / RETR / STOR | FTP commands     | Actions performed after login |
 | Port 20 traffic    | File content     | Data channel, also plaintext  |
 
-![FTP control channel showing USER and PASS in plaintext.png](assets/images/FTP control channel showing USER and PASS in plaintext.png)
-  _Figure — FTP control channel showing USER and PASS in plaintext_
+![FTP control channel showing USER and PASS in plaintext](assets/images/ftp-control-channel-showing-user-and-pass-in-plaintext.png)
+_Figure — FTP control channel showing USER and PASS in plaintext_
 
 
 ---
@@ -707,7 +710,8 @@ uname -a
 ls -la
 exit
 ```
-![SSH.png](assets/images/SSH.png)
+
+![SSH session from the Arch host to Alpine](assets/images/SSH.png)
 
 **Wireshark filter:** `ssh` or `tcp.port == 22`
 
@@ -721,11 +725,11 @@ exit
 |Packet size pattern|Many small fixed-size packets|Pattern of interactive typing|
 |New Keys message|Marks transition|Point where encryption begins|
 
- ![SSH-Banner.png](assets/images/SSH-Banner.png)
- _Figure — SSH version banner exchange visible before encryption begins_
+![SSH version banner exchange visible before encryption begins](assets/images/SSH-Banner.png)
+_Figure — SSH version banner exchange visible before encryption begins_
 
-![encrypted-packet.png](assets/images/encrypted-packet.png)
- _Figure — SSH session packets showing encrypted payload — content unreadable_
+![SSH session packets showing encrypted payload — content unreadable](assets/images/encrypted-packet.png)
+_Figure — SSH session packets showing encrypted payload — content unreadable_
 
 ---
 
@@ -784,7 +788,8 @@ traceroute -I 8.8.8.8
 # Standard UDP-based traceroute
 traceroute 8.8.8.8
 ```
-![Traceroute.png](assets/images/Traceroute.png)
+
+![traceroute from Alpine to 8.8.8.8](assets/images/Traceroute.png)
 
 **Wireshark filter:** `icmp.type == 11`
 
@@ -801,8 +806,9 @@ To see the full picture (probes + replies): `icmp`
 |TTL in original packet|Starts at 1, increments|Traceroute probe sequence|
 |Inner IP header|Preserved — shows original dest|Included in ICMP error messages|
 |Number of hops|Typically 5–15 to internet|Hop count to destination|
-![time-to-live-exeded.png](assets/images/time-to-live-exeded.png)
-_Figure — ICMP Type 11 Time_
+
+![ICMP Type 11 Time Exceeded replies, one per hop](assets/images/time-to-live-exeded.png)
+_Figure — ICMP Type 11 Time Exceeded replies, one per hop_
 
 ---
 

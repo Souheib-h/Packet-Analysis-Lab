@@ -1,4 +1,6 @@
+# Obsidian vault metadata
 .obsidian/
-#*.pcap
-#captures/
-assets/topology/.*bkp
+
+# draw.io backup files
+assets/topology/*.bkp
+assets/topology/.*.bkp

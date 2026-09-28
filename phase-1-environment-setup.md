@@ -235,6 +235,8 @@ recreation of the lab environment:
 | `project-1.xml` | KVM network definition for the lab network |
 | `Project1_Topology.unl` | PnetLab lab topology file |
 
+> `vm-config/project-1.xml` holds the **current** addressing (`192.168.200.0/24`, DHCP pool `.100–.199` so the static `.10` / `.20` endpoints stay outside it). The listings above show the original `192.168.100.0/24` setup, changed in Phase 3 (see the note at the top of Phase 3).
+
 To recreate the environment:
 1. Import `project-1.xml` via `sudo virsh net-define project-1.xml`
 2. Import `Project1_Topology.unl` into PnetLab via the web UI
